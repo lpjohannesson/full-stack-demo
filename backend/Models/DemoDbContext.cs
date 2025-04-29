@@ -12,8 +12,8 @@ public class DemoDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Post>().HasData(
-            new Post { Id = 1, Title = "Post1", Description = "Description1" },
-            new Post { Id = 2, Title = "Post2", Description = "Description2" }
+            new Post { Id = 1, Title = "Post1", Content = "Content1" },
+            new Post { Id = 2, Title = "Post2", Content = "Content2" }
         );
     }
 

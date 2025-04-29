@@ -1,4 +1,4 @@
-del src\infrastructure\data.db
+del data.db
 rmdir /s /q Migrations
 
 dotnet ef migrations add InitialCreate

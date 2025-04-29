@@ -22,7 +22,7 @@ namespace backend.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Description")
+                    b.Property<string>("Content")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Title")
@@ -36,13 +36,13 @@ namespace backend.Migrations
                         new
                         {
                             Id = 1L,
-                            Description = "Description1",
+                            Content = "Content1",
                             Title = "Post1"
                         },
                         new
                         {
                             Id = 2L,
-                            Description = "Description2",
+                            Content = "Content2",
                             Title = "Post2"
                         });
                 });
