@@ -1,0 +1,21 @@
+using Microsoft.EntityFrameworkCore;
+
+namespace backend.Models;
+
+public class DemoDbContext : DbContext
+{
+    public DemoDbContext(DbContextOptions<DemoDbContext> options)
+        : base(options)
+    {
+    }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Post>().HasData(
+            new Post { Id = 1, Title = "Post1", Description = "Description1" },
+            new Post { Id = 2, Title = "Post2", Description = "Description2" }
+        );
+    }
+
+    public DbSet<Post> Posts { get; set; } = null!;
+}
