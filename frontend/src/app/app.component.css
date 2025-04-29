@@ -1,0 +1,10 @@
+.header-space {
+    flex: 1 1 auto;
+}
+
+.post-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 16px;
+}

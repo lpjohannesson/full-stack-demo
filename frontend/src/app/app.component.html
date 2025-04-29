@@ -1,11 +1,16 @@
 <main>
   <mat-toolbar>
-    <button mat-button style="font-size: 20px">Full-Stack Store</button>
-    <span style="flex: 1 1 auto;"></span>
+    <button mat-button style="font-size: 20px">Full-Stack Demo</button>
+    <span class="header-space"></span>
     <button mat-icon-button>
       <mat-icon>menu</mat-icon>
     </button>
-  </mat-toolbar> 
+  </mat-toolbar>
+  <div class="post-list">
+    <post />
+    <post />
+    <post />
+  </div>
 </main>
 
 <router-outlet />
