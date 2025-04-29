@@ -1,3 +1,4 @@
 backend/Migrations
+backend/data.db
 backend/bin
 backend/obj
