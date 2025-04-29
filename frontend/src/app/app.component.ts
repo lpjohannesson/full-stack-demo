@@ -5,6 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { PostComponent } from './components/post.component';
 import { BackendService } from './services/backend-service';
+import { Post } from './models/post';
 
 @Component({
   selector: 'app-root',
@@ -13,9 +14,11 @@ import { BackendService } from './services/backend-service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  posts: Post[] | null = null;
+
   constructor(private service: BackendService) {}
 
   async ngOnInit() {
-    console.log(await this.service.getPosts());
+    this.posts = await this.service.getPosts();
   }
 }

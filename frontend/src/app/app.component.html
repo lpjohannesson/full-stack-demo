@@ -7,9 +7,9 @@
     </button>
   </mat-toolbar>
   <div class="post-list">
-    <post/>
-    <post/>
-    <post/>
+    @for (post of posts; track post) {
+      <post [post]="post"/>
+    }
   </div>
 </main>
 
