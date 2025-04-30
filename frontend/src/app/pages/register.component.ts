@@ -24,7 +24,8 @@ export class RegisterComponent {
 
   async submit() {
     try {
-      await this.service.register(this.email, this.password)
+      await this.service.register(this.email, this.password);
+      await this.service.login(this.email, this.password);
       this.router.navigate(["/"]);
     }
     catch (errors: any) {

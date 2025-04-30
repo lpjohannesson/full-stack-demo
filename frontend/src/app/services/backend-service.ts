@@ -6,6 +6,7 @@ import { Post } from '../models/post';
 @Injectable({ providedIn: 'root' })
 export class BackendService {
     private http = inject(HttpClient);
+    private tokenName = "access-token";
 
     register(email: string, password: string): Promise<void> {
         return new Promise<void>(async (resolve, reject) => {
@@ -32,13 +33,27 @@ export class BackendService {
             };
     
             try {
-                await firstValueFrom(this.http.post<any>('/api/login', body));
+                const response = await firstValueFrom(this.http.post<any>('/api/login', body));
+                localStorage.setItem(this.tokenName, response.accessToken);
+
                 resolve();
             }
             catch (err) {
                 reject();
             }
         });
+    }
+
+    logOut(): void {
+        return localStorage.removeItem(this.tokenName);
+    }
+
+    isLoggedIn(): boolean {
+        if (typeof window === 'undefined') {
+            return false;
+        }
+
+        return localStorage.getItem(this.tokenName) != undefined;
     }
 
     getPosts(): Promise<Post[]> {
