@@ -1,0 +1,13 @@
+<div class="page-container">
+    <mat-toolbar>
+      <a routerLink="/"><button mat-button style="font-size: 20px">Full-Stack Demo</button></a>
+      <span class="header-space"></span>
+      <div class="header-buttons">
+        <button mat-flat-button>Register</button>
+        <a routerLink="/login"><button mat-flat-button>Login</button></a>
+      </div>
+    </mat-toolbar>
+    <div class="content-container">
+        <ng-content />
+    </div>
+</div>
