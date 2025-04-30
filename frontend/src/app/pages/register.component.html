@@ -2,6 +2,9 @@
     <mat-card appearance="outlined" class="login-card">
         <mat-card-content class="login-content">
             <h1>Register</h1>
+            @for (error of errors(); track error) {
+                <p class="error-text">{{ error }}</p>
+            }
             <mat-form-field appearance="fill">
                 <mat-label>Email</mat-label>
                 <input matInput [(ngModel)]="email" [type]="'email'">

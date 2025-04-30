@@ -7,22 +7,38 @@ import { Post } from '../models/post';
 export class BackendService {
     private http = inject(HttpClient);
 
-    register(email: string, password: string): Promise<any> {
-        const body = {
-            email: email,
-            password: password
-        };
-
-        return firstValueFrom(this.http.post<any>('/api/register', body));
+    register(email: string, password: string): Promise<void> {
+        return new Promise<void>(async (resolve, reject) => {
+            const body = {
+                email: email,
+                password: password
+            };
+    
+            try {
+                await firstValueFrom(this.http.post<any>('/api/register', body));
+                resolve();
+            }
+            catch (err: any) {
+                reject(Object.values(err.error.errors));
+            }
+        });
     }
 
-    login(email: string, password: string): Promise<any> {
-        const body = {
-            email: email,
-            password: password
-        };
-
-        return firstValueFrom(this.http.post<any>('/api/login', body));
+    login(email: string, password: string): Promise<void> {
+        return new Promise<void>(async (resolve, reject) => {
+            const body = {
+                email: email,
+                password: password
+            };
+    
+            try {
+                await firstValueFrom(this.http.post<any>('/api/login', body));
+                resolve();
+            }
+            catch (err) {
+                reject();
+            }
+        });
     }
 
     getPosts(): Promise<Post[]> {

@@ -1,5 +1,5 @@
-import { Component, ViewChild } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, signal } from '@angular/core';
+import { Router, RouterOutlet } from '@angular/router';
 import { PageContainerComponent } from './components/page-container.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -17,10 +17,18 @@ import { FormsModule } from '@angular/forms';
 export class RegisterComponent {
   email: string;
   password: string;
+  
+  errors = signal<string[]>([]);
 
-  constructor(private service: BackendService) {}
+  constructor(private service: BackendService, private router: Router) {}
 
   async submit() {
-    console.log(await this.service.register(this.email, this.password));
+    try {
+      await this.service.register(this.email, this.password)
+      this.router.navigate(["/"]);
+    }
+    catch (errors: any) {
+      this.errors.update(_ => errors);
+    }
   }
 }

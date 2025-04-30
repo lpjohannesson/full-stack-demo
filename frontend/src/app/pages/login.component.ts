@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, signal } from '@angular/core';
+import { Router, RouterOutlet } from '@angular/router';
 import { PageContainerComponent } from './components/page-container.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -18,9 +18,17 @@ export class LoginComponent {
   email: string;
   password: string;
 
-  constructor(private service: BackendService) {}
+  errors = signal<string[]>([]);
+
+  constructor(private service: BackendService, private router: Router) {}
 
   async submit() {
-    console.log(await this.service.login(this.email, this.password));
+    try {
+      await this.service.login(this.email, this.password);
+      this.router.navigate(["/"]);
+    }
+    catch (err) {
+      this.errors.update(_ => ["Failed to log in."]);
+    }
   }
 }
