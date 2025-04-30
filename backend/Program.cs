@@ -9,6 +9,9 @@ builder.Services.AddOpenApi();
 builder.Services.AddDbContext<DemoDbContext>(opt =>
     opt.UseSqlite("Data Source=data.db"));
 
+builder.Services.AddIdentityApiEndpoints<User>()
+    .AddEntityFrameworkStores<DemoDbContext>();
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -19,6 +22,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+app.MapIdentityApi<User>();
 
 app.MapControllers();
 
