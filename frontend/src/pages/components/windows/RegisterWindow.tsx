@@ -31,8 +31,8 @@ export function RegisterWindow({ onCloseWindow }: FormWindowDerivedProps) {
             title="Register"
             inputs={
             <>
-                <TextFieldElement {...register("email")} label="Email" required />
-                <TextFieldElement {...register("password")} label="Password" required />
+                <TextFieldElement type="email" {...register("email")} label="Email" required />
+                <TextFieldElement type="password" {...register("password")} label="Password" required />
             </>
         } />
     )

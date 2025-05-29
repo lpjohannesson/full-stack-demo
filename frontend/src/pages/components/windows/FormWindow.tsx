@@ -37,7 +37,7 @@ function FormWindow({ onCloseWindow, onSubmit, isLoading, errors, title, inputs 
                             <Box sx={{ marginBottom: "16px" }}>
                                 {errors?.map((error, i) => (<Typography key={i} variant="subtitle2" sx={{ color: "red" }}>{error}</Typography>))}
                             </Box>
-                            <Box sx={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                            <Box sx={{ display: "flex", flexDirection: "column", gap: "16px" }}>
                                 {inputs}
                                 <Button type="submit" variant="contained">Submit</Button>
                             </Box>
