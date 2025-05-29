@@ -9,4 +9,4 @@ This is a project that demonstrates my web development abilities, both in the fr
 
 ## Running the app
 - Backend: Run the "create_database.bat" file to create the database, then "dotnet run"
-- Frontend: "npm run start"
+- Frontend: "npm install" and "npm run dev"
