@@ -1,7 +1,7 @@
-import type { Post } from "./models/Post";
+import type { PostModel } from "./models/PostModel";
 
 export class PostAPI {
-    static async getPosts(): Promise<Post[] | null> {
+    static async getPosts(): Promise<PostModel[] | null> {
         const response = await fetch('/api/Post');
 
         if (!response.ok) {

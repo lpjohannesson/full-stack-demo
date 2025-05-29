@@ -1,12 +1,12 @@
 import { Box } from "@mui/material";
 import { PostView } from "./components/PostView";
 import { useEffect, useState } from "react";
-import type { Post } from "../api/models/Post";
+import type { PostModel } from "../api/models/PostModel";
 import { PostAPI } from "../api/PostAPI";
 import { PageContainer } from "./components/PageContainer";
 
 export function HomePage() {
-    const [posts, setPosts] = useState<Post[] | null>(null);
+    const [posts, setPosts] = useState<PostModel[] | null>(null);
 
     useEffect(() => {
         (async () => {

@@ -2,10 +2,10 @@ import { Avatar, Box, Button, Card, CardContent, Divider, Typography } from "@mu
 import { Link } from "react-router-dom";
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
-import type { Post } from "../../api/models/Post";
+import type { PostModel } from "../../api/models/PostModel";
 
 class PostViewProps {
-    post: Post | undefined;
+    post: PostModel | undefined;
 }
 
 export function PostView({ post }: PostViewProps) {

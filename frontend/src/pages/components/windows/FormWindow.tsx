@@ -1,5 +1,5 @@
 import { Box, Button, Card, CardContent, IconButton, Typography } from "@mui/material";
-import { FormContainer, TextFieldElement } from "react-hook-form-mui";
+import { FormContainer } from "react-hook-form-mui";
 import './FormWindow.css'
 import CloseIcon from '@mui/icons-material/Close';
 
@@ -7,14 +7,17 @@ import CloseIcon from '@mui/icons-material/Close';
 class FormWindowProps {
     onCloseWindow: (() => void) | undefined;
     onSubmit: (() => void) | undefined;
+    isLoading: boolean | undefined;
+    errors: string[] | undefined;
     title: string | undefined;
+    inputs: any;
 }
 
 class FormWindowDerivedProps {
     onCloseWindow: (() => void) | undefined;
 }
 
-function FormWindow({ onCloseWindow, onSubmit, title }: FormWindowProps) {
+function FormWindow({ onCloseWindow, onSubmit, isLoading, errors, title, inputs }: FormWindowProps) {
     return (
         <Box className="window-back">
             <Card className="window-box">
@@ -25,14 +28,26 @@ function FormWindow({ onCloseWindow, onSubmit, title }: FormWindowProps) {
                             <CloseIcon />
                         </IconButton>
                     </Box>
-
+                    
                     <FormContainer onSuccess={onSubmit}>
-                        <Box sx={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-                            <TextFieldElement name="email" label="Email" required />
-                            <TextFieldElement name="password" label="Password" required />
-                            <Button type="submit" variant="contained">Submit</Button>
+                        {isLoading ?
+                            <Typography sx={{ position: "absolute" }}>
+                                Loading...
+                            </Typography> : null}
+
+                        <Box sx={{ visibility: isLoading ? "hidden" : "visible" }}>
+                            <Box sx={{ marginBottom: "16px" }}>
+                                {errors?.map(error => (<Typography variant="subtitle2" sx={{ color: "red" }}>{error}</Typography>))}
+                            </Box>
+                            <Box sx={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                                {inputs}
+                                <Button type="submit" variant="contained">Submit</Button>
+                            </Box>
                         </Box>
                     </FormContainer>
+
+                    
+                    
                 </CardContent>
             </Card>
         </Box>
