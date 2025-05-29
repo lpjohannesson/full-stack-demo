@@ -1,9 +1,10 @@
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import Toolbar from '@mui/material/Toolbar';
 import { useState, type ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import { LoginWindow } from './windows/LoginWindow';
 import { RegisterWindow } from './windows/RegisterWindow';
+import { LoadingView } from '../LoadingView';
 
 enum PageState {
     Content,
@@ -33,7 +34,7 @@ export function PageContainer({ children, isLoading }: PageContainerProps) {
                 </Box>
             </Toolbar>
             <Box sx={{ padding: "16px" }}>
-                { isLoading ? (<Typography>Loading...</Typography>) : children }
+                { isLoading ? (<LoadingView />) : children }
                 { pageState == PageState.Login ? <LoginWindow onCloseWindow={onCloseWindow} /> : null }
                 { pageState == PageState.Register ? <RegisterWindow onCloseWindow={onCloseWindow} /> : null }
             </Box>

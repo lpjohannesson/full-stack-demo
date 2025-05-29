@@ -11,7 +11,7 @@ export function LoginWindow({ onCloseWindow }: FormWindowDerivedProps) {
     
     async function onSubmit(body: any) {
         setIsLoading(true);
-
+        
         try {
             await AccountAPI.login(body);
         }

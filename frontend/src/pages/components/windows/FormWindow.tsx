@@ -2,6 +2,7 @@ import { Box, Button, Card, CardContent, IconButton, Typography } from "@mui/mat
 import { FormContainer } from "react-hook-form-mui";
 import './FormWindow.css'
 import CloseIcon from '@mui/icons-material/Close';
+import { LoadingView } from "../../LoadingView";
 
 
 class FormWindowProps {
@@ -30,14 +31,11 @@ function FormWindow({ onCloseWindow, onSubmit, isLoading, errors, title, inputs 
                     </Box>
                     
                     <FormContainer onSuccess={onSubmit}>
-                        {isLoading ?
-                            <Typography sx={{ position: "absolute" }}>
-                                Loading...
-                            </Typography> : null}
+                        {isLoading ? (<LoadingView />) : null}
 
                         <Box sx={{ visibility: isLoading ? "hidden" : "visible" }}>
                             <Box sx={{ marginBottom: "16px" }}>
-                                {errors?.map(error => (<Typography variant="subtitle2" sx={{ color: "red" }}>{error}</Typography>))}
+                                {errors?.map((error, i) => (<Typography key={i} variant="subtitle2" sx={{ color: "red" }}>{error}</Typography>))}
                             </Box>
                             <Box sx={{ display: "flex", flexDirection: "column", gap: "8px" }}>
                                 {inputs}
