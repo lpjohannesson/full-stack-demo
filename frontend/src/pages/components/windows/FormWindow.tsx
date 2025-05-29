@@ -30,10 +30,8 @@ function FormWindow({ onCloseWindow, onSubmit, isLoading, errors, title, inputs 
                         </IconButton>
                     </Box>
                     
-                    <FormContainer onSuccess={onSubmit}>
-                        {isLoading ? (<LoadingView />) : null}
-
-                        <Box sx={{ visibility: isLoading ? "hidden" : "visible" }}>
+                    <Box sx={{ visibility: isLoading ? "hidden" : "visible" }}>
+                        <FormContainer onSuccess={onSubmit} >
                             <Box sx={{ marginBottom: "16px" }}>
                                 {errors?.map((error, i) => (<Typography key={i} variant="subtitle2" sx={{ color: "red" }}>{error}</Typography>))}
                             </Box>
@@ -41,13 +39,11 @@ function FormWindow({ onCloseWindow, onSubmit, isLoading, errors, title, inputs 
                                 {inputs}
                                 <Button type="submit" variant="contained">Submit</Button>
                             </Box>
-                        </Box>
-                    </FormContainer>
-
-                    
-                    
+                        </FormContainer>
+                    </Box>
                 </CardContent>
             </Card>
+            {isLoading ? (<LoadingView />) : null}
         </Box>
     )
 }
