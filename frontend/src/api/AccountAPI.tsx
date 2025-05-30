@@ -2,6 +2,8 @@ import type { LoginModel } from "./models/LoginModel";
 import type { RegisterModel } from "./models/RegisterModel";
 
 export class AccountAPI {
+    static tokenName = "access-token";
+
     static async register(body: RegisterModel): Promise<void> {
         return new Promise(async (resolve, reject) => {
             const response = await fetch('/api/register', {
@@ -18,6 +20,7 @@ export class AccountAPI {
                 return;
             }
 
+            await this.login({ email: body.email, password: body.password });
             resolve();
         });
     }
@@ -34,8 +37,20 @@ export class AccountAPI {
                 reject();
                 return;
             }
+            
+            const responseJson = await response.json();
+            localStorage.setItem(this.tokenName, responseJson.accessToken);
 
             resolve();
         });
+    }
+
+    static logout(): void {
+        localStorage.removeItem(this.tokenName);
+        return; 
+    }
+
+    static isLoggedIn(): boolean {
+        return localStorage.getItem(this.tokenName) != undefined;
     }
 }

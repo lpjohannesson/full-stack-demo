@@ -34,6 +34,9 @@ export function PostView({ post }: PostViewProps) {
                 </Box>
                 <Divider sx={{ margin: "8px 0" }} />
                 <Typography variant="body1">{post?.content}</Typography>
+                <Typography variant="subtitle2" color="textDisabled">
+                    January 1st, 2025, 2:00 PM
+                </Typography>
             </CardContent>
         </Card>
     )

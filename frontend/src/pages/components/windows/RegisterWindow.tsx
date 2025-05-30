@@ -3,17 +3,18 @@ import { AccountAPI } from "../../../api/AccountAPI";
 import { TextFieldElement, useForm } from "react-hook-form-mui";
 import { useState } from "react";
 
-export function RegisterWindow({ onCloseWindow }: FormWindowDerivedProps) {
+export function RegisterWindow({ onCloseWindow, onSuccess }: FormWindowDerivedProps) {
     const [isLoading, setIsLoading] = useState(false);
     const [errors, setErrors] = useState<string[]>([]);
 
-    const { register, handleSubmit } = useForm();
+    const { register } = useForm();
     
     async function onSubmit(body: any) {
         setIsLoading(true);
         
         try {
             await AccountAPI.register(body);
+            onSuccess();
         }
         catch (errors: any) {
             setErrors(errors);
@@ -25,7 +26,7 @@ export function RegisterWindow({ onCloseWindow }: FormWindowDerivedProps) {
     return (
         <FormWindow
             onCloseWindow={onCloseWindow}
-            onSubmit={handleSubmit(onSubmit)}
+            onSubmit={onSubmit}
             isLoading={isLoading}
             errors={errors}
             title="Register"

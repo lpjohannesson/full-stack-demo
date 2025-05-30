@@ -6,8 +6,8 @@ import { LoadingView } from "../../LoadingView";
 
 
 class FormWindowProps {
-    onCloseWindow: (() => void) | undefined;
-    onSubmit: (() => void) | undefined;
+    onCloseWindow: any;
+    onSubmit: any;
     isLoading: boolean | undefined;
     errors: string[] | undefined;
     title: string | undefined;
@@ -15,12 +15,13 @@ class FormWindowProps {
 }
 
 class FormWindowDerivedProps {
-    onCloseWindow: (() => void) | undefined;
+    onCloseWindow: any;
+    onSuccess: any;
 }
 
 function FormWindow({ onCloseWindow, onSubmit, isLoading, errors, title, inputs }: FormWindowProps) {
     return (
-        <Box className="window-back">
+        <Box className="window-back" sx={{ zIndex: "1" }}>
             <Card className="window-box">
                 <CardContent>
                     <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "8px" }}>
