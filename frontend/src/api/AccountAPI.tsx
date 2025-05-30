@@ -4,11 +4,23 @@ import type { RegisterModel } from "./models/RegisterModel";
 export class AccountAPI {
     static tokenName = "access-token";
 
+    static getRequestHeaders(): any {
+        const headers: any = {
+            'Content-Type': 'application/json'
+        }
+
+        if (this.isLoggedIn()) {
+            headers['Authorization'] = `Bearer ${localStorage.getItem(this.tokenName)}`;
+        }
+
+        return headers;
+    }
+
     static async register(body: RegisterModel): Promise<void> {
         return new Promise(async (resolve, reject) => {
             const response = await fetch('/api/register', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: this.getRequestHeaders(),
                 body: JSON.stringify(body)
             });
 
@@ -29,7 +41,7 @@ export class AccountAPI {
         return new Promise(async (resolve, reject) => {
             const response = await fetch('/api/login', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: this.getRequestHeaders(),
                 body: JSON.stringify(body)
             });
 
