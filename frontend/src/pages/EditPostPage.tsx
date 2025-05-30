@@ -1,12 +1,14 @@
 import { FormContainer, TextFieldElement, useForm } from "react-hook-form-mui";
 import { PageContainer } from "./components/PageContainer";
 import { Box, Button, Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 export function EditPostPage() {
     const { register } = useForm();
+    const navigate = useNavigate();
     
     function onSubmit(body: any) {
-        
+        navigate("/");
     }
 
     return (
