@@ -4,7 +4,6 @@ import './FormWindow.css'
 import CloseIcon from '@mui/icons-material/Close';
 import { LoadingView } from "../../LoadingView";
 
-
 class FormWindowProps {
     onCloseWindow: any;
     onSubmit: any;
