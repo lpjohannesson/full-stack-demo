@@ -4,5 +4,4 @@ namespace backend.Models;
 
 public class User : IdentityUser
 {
-    
 }

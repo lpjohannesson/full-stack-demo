@@ -30,8 +30,8 @@ public class DemoDbContext(DbContextOptions<DemoDbContext> options) : IdentityDb
         modelBuilder.Entity<User>().HasData(testUser);
 
         modelBuilder.Entity<Post>().HasData(
-            new Post { Id = 1, Title = "Post1", Content = "Content1" },
-            new Post { Id = 2, Title = "Post2", Content = "Content2" }
+            new Post { Id = 1, Date = DateTime.Now, Title = "Post1", Content = "Content1", UserId = testUser.Id },
+            new Post { Id = 2, Date = DateTime.Now, Title = "Post2", Content = "Content2", UserId = testUser.Id }
         );
     }
 

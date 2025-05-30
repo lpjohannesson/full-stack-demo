@@ -18,7 +18,7 @@ export function PostView({ post }: PostViewProps) {
                         <Box>
                             <Typography variant="h6">{post?.title}</Typography>
                             <Typography>
-                                by <Link to="/">user123</Link>
+                                by <Link to="/">{post?.user?.userName}</Link>
                             </Typography>
                         </Box>
                     </Box>
@@ -34,9 +34,7 @@ export function PostView({ post }: PostViewProps) {
                 </Box>
                 <Divider sx={{ margin: "8px 0" }} />
                 <Typography variant="body1">{post?.content}</Typography>
-                <Typography variant="subtitle2" color="textDisabled">
-                    January 1st, 2025, 2:00 PM
-                </Typography>
+                <Typography variant="subtitle2" color="textDisabled">{post?.date}</Typography>
             </CardContent>
         </Card>
     )
