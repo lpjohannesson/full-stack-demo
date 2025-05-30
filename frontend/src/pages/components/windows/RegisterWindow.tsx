@@ -18,9 +18,8 @@ export function RegisterWindow({ onCloseWindow, onSuccess }: FormWindowDerivedPr
         }
         catch (errors: any) {
             setErrors(errors);
+            setIsLoading(false);
         }
-
-        setIsLoading(false);
     }
 
     return (

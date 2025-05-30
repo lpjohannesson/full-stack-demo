@@ -1,14 +1,20 @@
-import { Avatar, Box, Button, Card, CardContent, Divider, Typography } from "@mui/material";
+import { Avatar, Box, Button, Card, CardActions, CardContent, Divider, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import type { PostModel } from "../../api/models/PostModel";
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { useContext } from "react";
+import { UserContext } from "../../UserContext";
 
 class PostViewProps {
     post: PostModel | undefined;
 }
 
 export function PostView({ post }: PostViewProps) {
+    const { user } = useContext(UserContext);
+
     return (
         <Card>
             <CardContent>
@@ -36,6 +42,13 @@ export function PostView({ post }: PostViewProps) {
                 <Typography variant="body1">{post?.content}</Typography>
                 <Typography variant="subtitle2" color="textDisabled">{post?.date}</Typography>
             </CardContent>
+            <CardActions>
+                { post?.user?.id != user?.id ? null : 
+                <>
+                    <Button variant="outlined" startIcon={<EditIcon />}>Edit</Button>
+                    <Button variant="outlined" startIcon={<DeleteIcon />}>Delete</Button>
+                </> }
+            </CardActions>
         </Card>
     )
 }

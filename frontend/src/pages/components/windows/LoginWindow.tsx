@@ -17,10 +17,9 @@ export function LoginWindow({ onCloseWindow, onSuccess }: FormWindowDerivedProps
             onSuccess();
         }
         catch {
-            setErrors(["Failed to log in."])
+            setErrors(["Failed to log in."]);
+            setIsLoading(false);
         }
-
-        setIsLoading(false);
     }
 
     return (

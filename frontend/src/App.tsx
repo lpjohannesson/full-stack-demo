@@ -4,17 +4,33 @@ import { HomePage } from './pages/HomePage'
 import { ThemeProvider } from '@emotion/react'
 import { theme } from './Theme'
 import { EditPostPage } from './pages/EditPostPage'
+import { UserContext } from './UserContext'
+import type { UserModel } from './api/models/UserModel'
+import { useEffect, useState } from 'react'
+import { AccountAPI } from './api/AccountAPI'
 
 function App() {
+  const [user, setUser] = useState<UserModel | null>(null);
+
+  useEffect(() => {
+    (async () => {
+      if (AccountAPI.isLoggedIn()) {
+        setUser(await AccountAPI.getUser());
+      }
+    })();
+  }, []);
+
   return (
-    <ThemeProvider theme={theme}>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/edit-post" element={<EditPostPage />} />
-        </Routes>
-      </BrowserRouter>
-    </ThemeProvider>
+    <UserContext.Provider value={{ user, setUser }}>
+      <ThemeProvider theme={theme}>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/edit-post" element={<EditPostPage />} />
+          </Routes>
+        </BrowserRouter>
+      </ThemeProvider>
+    </UserContext.Provider>
   )
 }
 

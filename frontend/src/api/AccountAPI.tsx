@@ -1,5 +1,6 @@
 import type { LoginModel } from "./models/LoginModel";
 import type { RegisterModel } from "./models/RegisterModel";
+import type { UserModel } from "./models/UserModel";
 
 export class AccountAPI {
     static tokenName = "access-token";
@@ -35,6 +36,14 @@ export class AccountAPI {
             await this.login({ email: body.email, password: body.password });
             resolve();
         });
+    }
+
+    static async getUser(): Promise<UserModel> {
+        const response = await fetch('/api/User', {
+            headers: this.getRequestHeaders()
+        });
+        
+        return await response.json();
     }
 
     static async login(body: LoginModel): Promise<void> {
