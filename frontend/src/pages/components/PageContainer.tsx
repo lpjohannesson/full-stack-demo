@@ -29,9 +29,7 @@ export function PageContainer({ children, isLoading }: PageContainerProps) {
     }
 
     async function login() {
-        if (user == null) {
-            setUser(await AccountAPI.getUser());
-        }
+        setUser(await AccountAPI.getUser());
 
         setPageState(PageState.Content);
         setIsLoggedIn(true);
