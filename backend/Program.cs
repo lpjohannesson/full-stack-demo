@@ -6,8 +6,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? "";
+
 builder.Services.AddDbContext<DemoDbContext>(opt =>
-    opt.UseSqlite("Data Source=data.db"));
+    opt.UseMySQL(connectionString));
 
 builder.Services.AddIdentityApiEndpoints<User>()
     .AddEntityFrameworkStores<DemoDbContext>();
