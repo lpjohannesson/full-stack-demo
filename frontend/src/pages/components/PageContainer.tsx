@@ -1,7 +1,7 @@
 import { Box, Button, Typography } from '@mui/material';
 import Toolbar from '@mui/material/Toolbar';
 import { useContext, useState, type ReactNode } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { LoginWindow } from './windows/LoginWindow';
 import { RegisterWindow } from './windows/RegisterWindow';
 import { LoadingView } from './LoadingView';
@@ -22,6 +22,7 @@ class PageContainerProps {
 export function PageContainer({ children, isLoading }: PageContainerProps) {
     const [pageState, setPageState] = useState<PageState>(PageState.Content);
     const { user, setUser } = useContext(UserContext);
+    const navigate = useNavigate();
 
     function onCloseWindow() {
         setPageState(PageState.Content);
@@ -36,6 +37,8 @@ export function PageContainer({ children, isLoading }: PageContainerProps) {
     async function logout() {
         AccountAPI.logout();
         setUser(null);
+
+        navigate("/");
     }
 
     return (

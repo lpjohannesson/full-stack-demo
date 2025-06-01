@@ -34,7 +34,8 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<HomePage />} />
-            <Route path="/edit-post" element={<EditPostPage />} />
+            <Route path="/create-post" element={<EditPostPage />} />
+            <Route path="/edit-post/:id" element={<EditPostPage />} />
           </Routes>
         </BrowserRouter>
       </ThemeProvider>

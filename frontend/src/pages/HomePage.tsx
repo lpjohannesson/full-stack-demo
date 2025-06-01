@@ -26,7 +26,7 @@ export function HomePage() {
     return (
         <PageContainer isLoading={posts == null}>
             <Box sx={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-                { user == null ? null : <Button component={Link} to="/edit-post" variant="contained">Create a post</Button> }
+                { user == null ? null : <Button component={Link} to="/create-post" variant="contained">Create a post</Button> }
                 { posts?.map((post) => {
                     return (<PostView key={post.id} post={post} deletePost={deletePost} />);
                 }) }

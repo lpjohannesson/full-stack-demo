@@ -34,6 +34,23 @@ public class PostController(DemoDbContext context, UserManager<User> userManager
             .ToListAsync();
     }
 
+    
+    [HttpGet("/Post/{id}")]
+    public async Task<ActionResult<object>> GetPost(long id)
+    {
+        Post? post = await _context.Posts
+            .Include(e => e.User)
+            .Where(e => e.Id == id)
+            .FirstOrDefaultAsync();
+
+        if (post == null)
+        {
+            return NotFound();
+        }
+
+        return GetPostData(post);
+    }
+
     [HttpPost]
     public async Task<ActionResult> CreatePost([FromBody] PostRequest request)
     {
@@ -75,6 +92,11 @@ public class PostController(DemoDbContext context, UserManager<User> userManager
         if (post == null)
         {
             return NotFound();
+        }
+
+        if (post.UserId != user.Id)
+        {
+            return Unauthorized();
         }
 
         post.Title = request.Title;

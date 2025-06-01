@@ -14,9 +14,30 @@ export class PostAPI {
         return responseJson;
     }
 
+    static async getPost(id: number): Promise<PostModel | null> {
+        const response = await fetch(`/api/Post/${id}`, {
+            method: 'GET',
+            headers: AccountAPI.getRequestHeaders()
+        });
+
+        if (!response.ok) {
+            return null;
+        }
+
+        return await response.json();
+    }
+
     static async createPost(body: PostRequestModel) {
         await fetch('/api/Post', {
             method: 'POST',
+            headers: AccountAPI.getRequestHeaders(),
+            body: JSON.stringify(body)
+        });
+    }
+
+    static async editPost(id: number, body: PostRequestModel) {
+        await fetch(`/api/Post/${id}`, {
+            method: 'PUT',
             headers: AccountAPI.getRequestHeaders(),
             body: JSON.stringify(body)
         });

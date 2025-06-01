@@ -46,7 +46,7 @@ export function PostView({ post, deletePost }: PostViewProps) {
             <CardActions>
                 { post?.user?.id != user?.id ? null : 
                 <>
-                    <Button variant="outlined" startIcon={<EditIcon />}>Edit</Button>
+                    <Button component={Link} to={`/edit-post/${post?.id}`} variant="outlined" startIcon={<EditIcon />}>Edit</Button>
                     <Button variant="outlined" startIcon={<DeleteIcon />} onClick={() => deletePost(post?.id ?? 0)}>Delete</Button>
                 </> }
             </CardActions>
