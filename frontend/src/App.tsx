@@ -19,6 +19,7 @@ function App() {
         
         if (user == null) {
           AccountAPI.logout();
+          setUser(null);
         }
         else {
           setUser(user);
