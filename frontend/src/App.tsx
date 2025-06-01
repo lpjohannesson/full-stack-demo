@@ -15,7 +15,14 @@ function App() {
   useEffect(() => {
     (async () => {
       if (AccountAPI.isLoggedIn()) {
-        setUser(await AccountAPI.getUser());
+        const user = await AccountAPI.getUser();
+        
+        if (user == null) {
+          AccountAPI.logout();
+        }
+        else {
+          setUser(user);
+        }
       }
     })();
   }, []);

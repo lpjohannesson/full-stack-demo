@@ -38,10 +38,14 @@ export class AccountAPI {
         });
     }
 
-    static async getUser(): Promise<UserModel> {
+    static async getUser(): Promise<UserModel | null> {
         const response = await fetch('/api/User', {
             headers: this.getRequestHeaders()
         });
+
+        if (!response.ok) {
+            return null;
+        }
         
         return await response.json();
     }

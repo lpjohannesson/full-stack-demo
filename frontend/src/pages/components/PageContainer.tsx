@@ -21,7 +21,6 @@ class PageContainerProps {
 
 export function PageContainer({ children, isLoading }: PageContainerProps) {
     const [pageState, setPageState] = useState<PageState>(PageState.Content);
-    const [isLoggedIn, setIsLoggedIn] = useState<boolean>(AccountAPI.isLoggedIn());
     const { user, setUser } = useContext(UserContext);
 
     function onCloseWindow() {
@@ -32,13 +31,10 @@ export function PageContainer({ children, isLoading }: PageContainerProps) {
         setUser(await AccountAPI.getUser());
 
         setPageState(PageState.Content);
-        setIsLoggedIn(true);
     }
 
     async function logout() {
         AccountAPI.logout();
-        setIsLoggedIn(false);
-
         setUser(null);
     }
 
@@ -47,15 +43,15 @@ export function PageContainer({ children, isLoading }: PageContainerProps) {
             <Toolbar sx={{ display: "flex", justifyContent: "space-between", backgroundColor: "lightgray" }}>
                 <Button component={Link} to="/">Full-Stack Demo</Button>
                 <Box sx={{ display: "flex", justifyContent: "space-between", gap: "8px" }}>
-                    { isLoggedIn ? 
-                        (<Box sx={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                            {user ? <Typography>Hello, {user.userName}!</Typography> : null}
-                            <Button variant="contained" onClick={logout}>Log out</Button>
-                        </Box>) :
+                    { user == null ? 
                         (<>
                             <Button variant="contained" onClick={() => { setPageState(PageState.Register); }}>Register</Button>
                             <Button variant="contained" onClick={() => { setPageState(PageState.Login); }}>Login</Button>
-                        </>)
+                        </>) :
+                        (<Box sx={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                            {user ? <Typography>Hello, {user.userName}!</Typography> : null}
+                            <Button variant="contained" onClick={logout}>Log out</Button>
+                        </Box>)
                     }
                 </Box>
             </Toolbar>
