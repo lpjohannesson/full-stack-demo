@@ -44,7 +44,7 @@ export function PageContainer({ children, isLoading }: PageContainerProps) {
                 <Button component={Link} to="/">Full-Stack Demo</Button>
                 <Box sx={{ display: "flex", justifyContent: "space-between", gap: "8px" }}>
                     { user == null ? 
-                        (<>
+                        (AccountAPI.isLoggedIn() ? null : <>
                             <Button variant="contained" onClick={() => { setPageState(PageState.Register); }}>Register</Button>
                             <Button variant="contained" onClick={() => { setPageState(PageState.Login); }}>Login</Button>
                         </>) :
