@@ -4,7 +4,10 @@ import type { PostRequestModel } from "./models/PostRequestModel";
 
 export class PostAPI {
     static async getPosts(): Promise<PostModel[] | null> {
-        const response = await fetch('/api/Post');
+        const response = await fetch('/api/Post', {
+            method: 'GET',
+            headers: AccountAPI.getRequestHeaders()
+        });
 
         if (!response.ok) {
             return null;

@@ -6,4 +6,5 @@ export class PostModel {
     user: { id: string, userName: string } | undefined;
     likes: number | undefined;
     dislikes: number | undefined;
+    userReaction: number | undefined;
 }

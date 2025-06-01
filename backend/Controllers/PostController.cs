@@ -12,8 +12,10 @@ public class PostController(DemoDbContext context, UserManager<User> userManager
     private readonly DemoDbContext _context = context;
     private readonly UserManager<User> _userManager = userManager;
 
-    private static object GetPostData(Post post)
+    private static object GetPostData(Post post, User? user)
     {
+        PostReaction? reaction = post.Reactions.FirstOrDefault(e => e.UserId == user?.Id);
+
         return new
         {
             post.Id,
@@ -22,7 +24,8 @@ public class PostController(DemoDbContext context, UserManager<User> userManager
             post.Content,
             user = post.User == null ? null : new { post.User.Id, post.User.UserName },
             likes = post.Reactions.Where(e => e.Liked).Count(),
-            dislikes = post.Reactions.Where(e => !e.Liked).Count()
+            dislikes = post.Reactions.Where(e => !e.Liked).Count(),
+            userReaction = reaction == null ? 0 : (reaction.Liked ? 1 : -1)
         };
     }
 
@@ -36,9 +39,11 @@ public class PostController(DemoDbContext context, UserManager<User> userManager
     [HttpGet]
     public async Task<ActionResult<IEnumerable<object>>> GetPosts()
     {
+        User? user = await _userManager.GetUserAsync(User);
+
         return await GetPostQuery()
             .OrderByDescending(e => e.Date)
-            .Select(e => GetPostData(e))
+            .Select(e => GetPostData(e, user))
             .ToListAsync();
     }
 
@@ -46,6 +51,8 @@ public class PostController(DemoDbContext context, UserManager<User> userManager
     [HttpGet("/Post/{id}")]
     public async Task<ActionResult<object>> GetPost(long id)
     {
+        User? user = await _userManager.GetUserAsync(User);
+        
         Post? post = await GetPostQuery()
             .Where(e => e.Id == id)
             .FirstOrDefaultAsync();
@@ -55,7 +62,7 @@ public class PostController(DemoDbContext context, UserManager<User> userManager
             return NotFound();
         }
 
-        return GetPostData(post);
+        return GetPostData(post, user);
     }
 
     [HttpPost]
