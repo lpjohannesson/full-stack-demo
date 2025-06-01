@@ -35,5 +35,5 @@ public class DemoDbContext(DbContextOptions<DemoDbContext> options) : IdentityDb
         );
     }
 
-    public DbSet<Post> Posts { get; set; } = null!;
+    public DbSet<Post> Posts { get; set; }
 }
