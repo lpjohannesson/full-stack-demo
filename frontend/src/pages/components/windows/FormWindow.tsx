@@ -2,7 +2,7 @@ import { Box, Button, Card, CardContent, IconButton, Typography } from "@mui/mat
 import { FormContainer } from "react-hook-form-mui";
 import './FormWindow.css'
 import CloseIcon from '@mui/icons-material/Close';
-import { LoadingView } from "../../LoadingView";
+import { LoadingView } from "../LoadingView";
 
 class FormWindowProps {
     onCloseWindow: any;

@@ -14,6 +14,9 @@ builder.Services.AddDbContext<DemoDbContext>(opt =>
 builder.Services.AddIdentityApiEndpoints<User>()
     .AddEntityFrameworkStores<DemoDbContext>();
 
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
@@ -25,6 +28,8 @@ using (var scope = app.Services.CreateScope())
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();

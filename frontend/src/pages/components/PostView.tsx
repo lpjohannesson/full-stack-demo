@@ -10,9 +10,10 @@ import { UserContext } from "../../UserContext";
 
 class PostViewProps {
     post: PostModel | undefined;
+    deletePost: any;
 }
 
-export function PostView({ post }: PostViewProps) {
+export function PostView({ post, deletePost }: PostViewProps) {
     const { user } = useContext(UserContext);
 
     return (
@@ -46,7 +47,7 @@ export function PostView({ post }: PostViewProps) {
                 { post?.user?.id != user?.id ? null : 
                 <>
                     <Button variant="outlined" startIcon={<EditIcon />}>Edit</Button>
-                    <Button variant="outlined" startIcon={<DeleteIcon />}>Delete</Button>
+                    <Button variant="outlined" startIcon={<DeleteIcon />} onClick={() => deletePost(post?.id ?? 0)}>Delete</Button>
                 </> }
             </CardActions>
         </Card>

@@ -21,4 +21,11 @@ export class PostAPI {
             body: JSON.stringify(body)
         });
     }
+
+    static async deletePost(id: number) {
+        await fetch(`/api/Post/${id}`, {
+            method: 'DELETE',
+            headers: AccountAPI.getRequestHeaders()
+        });
+    }
 }

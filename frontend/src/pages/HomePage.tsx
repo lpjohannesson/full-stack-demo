@@ -9,18 +9,24 @@ import { Link } from "react-router-dom";
 export function HomePage() {
     const [posts, setPosts] = useState<PostModel[] | null>(null);
 
+    async function deletePost(id: number) {
+        setPosts(null);
+        await PostAPI.deletePost(id);
+        setPosts(await PostAPI.getPosts());
+    }
+
     useEffect(() => {
         (async () => {
             setPosts(await PostAPI.getPosts());
         })();
-    }, [])
+    }, []);
 
     return (
         <PageContainer isLoading={posts == null}>
             <Box sx={{ display: "flex", flexDirection: "column", gap: "16px" }}>
                 <Button component={Link} to="/edit-post" variant="contained">Create a post</Button>
                 { posts?.map((post) => {
-                    return (<PostView key={post.id} post={post} />);
+                    return (<PostView key={post.id} post={post} deletePost={deletePost} />);
                 }) }
             </Box>
         </PageContainer>

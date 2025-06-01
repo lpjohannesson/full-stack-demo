@@ -12,20 +12,26 @@ public class PostController(DemoDbContext context, UserManager<User> userManager
     private readonly DemoDbContext _context = context;
     private readonly UserManager<User> _userManager = userManager;
 
+    private static object GetPostData(Post post)
+    {
+        return new
+        {
+            post.Id,
+            date = post.Date?.ToString("MMMM dd, yyyy, hh:mm tt"),
+            post.Title,
+            post.Content,
+            user = post.User == null ? null : new { post.User.Id, post.User.UserName }
+        };
+    }
+
     [HttpGet]
     public async Task<ActionResult<IEnumerable<object>>> GetPosts()
     {
         return await _context.Posts
             .Include(e => e.User)
             .OrderByDescending(e => e.Date)
-            .Select(static e => new
-            {
-                e.Id,
-                date = e.Date == null ? null : e.Date.Value.ToString("MMMM dd, yyyy, hh:mm tt"),
-                e.Title,
-                e.Content,
-                user = e.User == null ? null : new { e.User.Id, e.User.UserName }
-            }).ToListAsync();
+            .Select(e => GetPostData(e))
+            .ToListAsync();
     }
 
     [HttpPost]
@@ -52,7 +58,33 @@ public class PostController(DemoDbContext context, UserManager<User> userManager
         return Ok();
     }
 
-    [HttpDelete("/{id}")]
+    [HttpPut("/Post/{id}")]
+    public async Task<ActionResult> EditPost(long id, [FromBody] PostRequest request)
+    {
+        User? user = await _userManager.GetUserAsync(User);
+
+        if (user == null)
+        {
+            return Unauthorized();
+        }
+
+        Post? post = await _context.Posts
+            .Where(e => e.Id == id)
+            .FirstOrDefaultAsync();
+
+        if (post == null)
+        {
+            return NotFound();
+        }
+
+        post.Title = request.Title;
+        post.Content = request.Content;
+        await _context.SaveChangesAsync();
+
+        return Ok();
+    }
+
+    [HttpDelete("/Post/{id}")]
     public async Task<ActionResult> DeletePost(long id)
     {
         User? user = await _userManager.GetUserAsync(User);

@@ -4,7 +4,7 @@ import { useContext, useState, type ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import { LoginWindow } from './windows/LoginWindow';
 import { RegisterWindow } from './windows/RegisterWindow';
-import { LoadingView } from '../LoadingView';
+import { LoadingView } from './LoadingView';
 import { AccountAPI } from '../../api/AccountAPI';
 import { UserContext } from '../../UserContext';
 
