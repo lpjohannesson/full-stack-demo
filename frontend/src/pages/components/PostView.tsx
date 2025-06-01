@@ -33,7 +33,7 @@ export function PostView({ post, deletePost }: PostViewProps) {
         const newReaction = userReaction == n ? 0 : n;
         setUserReaction(newReaction);
 
-        await PostAPI.setPostReaction({ postId: post?.id, reaction: newReaction })
+        await PostAPI.setReaction({ postId: post?.id, reaction: newReaction })
     }
 
     return (

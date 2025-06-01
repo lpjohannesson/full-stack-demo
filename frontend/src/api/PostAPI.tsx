@@ -54,7 +54,7 @@ export class PostAPI {
         });
     }
 
-    static async setPostReaction(body: PostReactionRequestModel) {
+    static async setReaction(body: PostReactionRequestModel) {
         await fetch('/api/Post/SetReaction', {
             method: 'POST',
             headers: AccountAPI.getRequestHeaders(),
