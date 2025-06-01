@@ -19,9 +19,10 @@ export function HomePage() {
 
     useEffect(() => {
         (async () => {
+            setPosts(null);
             setPosts(await PostAPI.getPosts());
         })();
-    }, []);
+    }, [user]);
 
     return (
         <PageContainer isLoading={posts == null}>

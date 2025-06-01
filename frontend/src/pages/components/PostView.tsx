@@ -5,8 +5,9 @@ import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import type { PostModel } from "../../api/models/PostModel";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { UserContext } from "../../UserContext";
+import { PostAPI } from "../../api/PostAPI";
 
 class PostViewProps {
     post: PostModel | undefined;
@@ -15,6 +16,25 @@ class PostViewProps {
 
 export function PostView({ post, deletePost }: PostViewProps) {
     const { user } = useContext(UserContext);
+
+    const [userReaction, setUserReaction] = useState<number>(post?.userReaction ?? 0);
+
+    const liked = userReaction == 1;
+    const disliked = userReaction == -1;
+
+    const likes = (post?.likes ?? 0) + (liked ? 1 : 0);
+    const dislikes = (post?.dislikes ?? 0) + (disliked ? 1 : 0);
+
+    async function sendUserReaction(n: number) {
+        if (user == null) {
+            return;
+        }
+
+        const newReaction = userReaction == n ? 0 : n;
+        setUserReaction(newReaction);
+
+        await PostAPI.setPostReaction({ postId: post?.id, reaction: newReaction })
+    }
 
     return (
         <Card>
@@ -30,12 +50,14 @@ export function PostView({ post, deletePost }: PostViewProps) {
                         </Box>
                     </Box>
                     <Box sx={{ display: "flex", alignItems: "center", gap: "16px" }}>
-                        <Button variant={ post?.userReaction == 1 ? "contained" : "outlined" } startIcon={<ThumbUpIcon />}>
-                            {post?.likes}
+                        <Button variant={ liked ? "contained" : "outlined" } startIcon={<ThumbUpIcon />}
+                            onClick={() => sendUserReaction(1)}>
+                            {likes}
                         </Button>
-                        <Typography>{(post?.likes ?? 0) - (post?.dislikes ?? 0)}</Typography>
-                        <Button variant={ post?.userReaction == -1 ? "contained" : "outlined" } endIcon={<ThumbDownIcon />}>
-                            {post?.dislikes}
+                        <Typography>{likes - dislikes}</Typography>
+                        <Button variant={ disliked ? "contained" : "outlined" } endIcon={<ThumbDownIcon />}
+                            onClick={() => sendUserReaction(-1)}>
+                            {dislikes}
                         </Button>
                     </Box>
                 </Box>

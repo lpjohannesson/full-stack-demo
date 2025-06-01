@@ -30,7 +30,6 @@ export function PageContainer({ children, isLoading }: PageContainerProps) {
 
     async function login() {
         setUser(await AccountAPI.getUser());
-
         setPageState(PageState.Content);
     }
 

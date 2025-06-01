@@ -1,5 +1,6 @@
 import { AccountAPI } from "./AccountAPI";
 import type { PostModel } from "./models/PostModel";
+import type { PostReactionRequestModel } from "./models/PostReactionRequestModel";
 import type { PostRequestModel } from "./models/PostRequestModel";
 
 export class PostAPI {
@@ -50,6 +51,14 @@ export class PostAPI {
         await fetch(`/api/Post/${id}`, {
             method: 'DELETE',
             headers: AccountAPI.getRequestHeaders()
+        });
+    }
+
+    static async setPostReaction(body: PostReactionRequestModel) {
+        await fetch('/api/Post/SetReaction', {
+            method: 'POST',
+            headers: AccountAPI.getRequestHeaders(),
+            body: JSON.stringify(body)
         });
     }
 }

@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using backend.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -23,8 +24,8 @@ public class PostController(DemoDbContext context, UserManager<User> userManager
             post.Title,
             post.Content,
             user = post.User == null ? null : new { post.User.Id, post.User.UserName },
-            likes = post.Reactions.Where(e => e.Liked).Count(),
-            dislikes = post.Reactions.Where(e => !e.Liked).Count(),
+            likes = post.Reactions.Where(e => e.Liked && e.UserId != user?.Id).Count(),
+            dislikes = post.Reactions.Where(e => !e.Liked && e.UserId != user?.Id).Count(),
             userReaction = reaction == null ? 0 : (reaction.Liked ? 1 : -1)
         };
     }
@@ -34,7 +35,7 @@ public class PostController(DemoDbContext context, UserManager<User> userManager
         return _context.Posts
             .Include(e => e.User)
             .Include(e => e.Reactions);
-    } 
+    }
 
     [HttpGet]
     public async Task<ActionResult<IEnumerable<object>>> GetPosts()
@@ -47,12 +48,12 @@ public class PostController(DemoDbContext context, UserManager<User> userManager
             .ToListAsync();
     }
 
-    
-    [HttpGet("/Post/{id}")]
+
+    [HttpGet("{id}")]
     public async Task<ActionResult<object>> GetPost(long id)
     {
         User? user = await _userManager.GetUserAsync(User);
-        
+
         Post? post = await GetPostQuery()
             .Where(e => e.Id == id)
             .FirstOrDefaultAsync();
@@ -89,7 +90,7 @@ public class PostController(DemoDbContext context, UserManager<User> userManager
         return Ok();
     }
 
-    [HttpPut("/Post/{id}")]
+    [HttpPut("{id}")]
     public async Task<ActionResult> EditPost(long id, [FromBody] PostRequest request)
     {
         User? user = await _userManager.GetUserAsync(User);
@@ -120,7 +121,7 @@ public class PostController(DemoDbContext context, UserManager<User> userManager
         return Ok();
     }
 
-    [HttpDelete("/Post/{id}")]
+    [HttpDelete("{id}")]
     public async Task<ActionResult> DeletePost(long id)
     {
         User? user = await _userManager.GetUserAsync(User);
@@ -145,6 +146,45 @@ public class PostController(DemoDbContext context, UserManager<User> userManager
         }
 
         _context.Remove(post);
+        await _context.SaveChangesAsync();
+
+        return Ok();
+    }
+
+    [HttpPost("SetReaction")]
+    public async Task<ActionResult> SetReaction([FromBody] PostReactionRequest request)
+    {
+        User? user = await _userManager.GetUserAsync(User);
+
+        if (user == null)
+        {
+            return Unauthorized();
+        }
+
+        PostReaction? postReaction = await _context.PostReactions
+            .Where(e => e.UserId == user.Id && e.PostId == request.PostId)
+            .FirstOrDefaultAsync();
+
+        if (request.Reaction == 0)
+        {
+            // Remove reaction
+            if (postReaction != null)
+            {
+                _context.Remove(postReaction);
+                await _context.SaveChangesAsync();
+            }
+
+            return Ok();
+        }
+
+        // Add reaction
+        if (postReaction == null)
+        {
+            postReaction = new PostReaction() { UserId = user.Id, PostId = request.PostId };
+            _context.PostReactions.Add(postReaction);
+        }
+
+        postReaction.Liked = request.Reaction > 0;
         await _context.SaveChangesAsync();
 
         return Ok();
