@@ -11,7 +11,7 @@ using backend.Models;
 namespace backend.Migrations
 {
     [DbContext(typeof(DemoDbContext))]
-    [Migration("20250601021235_InitialCreate")]
+    [Migration("20250601195518_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -179,17 +179,50 @@ namespace backend.Migrations
                         {
                             Id = 1L,
                             Content = "Content1",
-                            Date = new DateTime(2025, 5, 31, 22, 12, 34, 50, DateTimeKind.Local).AddTicks(7906),
+                            Date = new DateTime(2025, 6, 1, 15, 55, 17, 517, DateTimeKind.Local).AddTicks(123),
                             Title = "Post1",
-                            UserId = "972d9df7-a2fa-401b-bcfa-60886c5b67cb"
+                            UserId = "901c7473-12c2-4779-b938-48bf516f9e31"
                         },
                         new
                         {
                             Id = 2L,
                             Content = "Content2",
-                            Date = new DateTime(2025, 5, 31, 22, 12, 34, 53, DateTimeKind.Local).AddTicks(2032),
+                            Date = new DateTime(2025, 6, 1, 15, 55, 17, 519, DateTimeKind.Local).AddTicks(3196),
                             Title = "Post2",
-                            UserId = "972d9df7-a2fa-401b-bcfa-60886c5b67cb"
+                            UserId = "901c7473-12c2-4779-b938-48bf516f9e31"
+                        });
+                });
+
+            modelBuilder.Entity("backend.Models.PostReaction", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("Liked")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<long?>("PostId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("varchar(255)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PostId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("PostReactions");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            Liked = true,
+                            PostId = 1L,
+                            UserId = "901c7473-12c2-4779-b938-48bf516f9e31"
                         });
                 });
 
@@ -259,17 +292,17 @@ namespace backend.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "972d9df7-a2fa-401b-bcfa-60886c5b67cb",
+                            Id = "901c7473-12c2-4779-b938-48bf516f9e31",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "95103687-7405-4d96-b7f6-a9e142b64694",
+                            ConcurrencyStamp = "44060e4b-03af-4515-9d90-bbb20280c054",
                             Email = "test@test.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "TEST@TEST.COM",
                             NormalizedUserName = "TEST@TEST.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEH8oF3iZ0Bqw2XXMrc6W5GNx9ZvnrzWHKaDSNxX4/BqD4O2P2kiHdFVSGpi1D7Balg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEH/pWKtYZJknCxbtPp3+9NUECjcxnbFX8NBUD6kWU6vlqyxMXKR6dSPPaHvNaXkDvg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "2a752a2b-7474-42ca-be82-7862e58f1073",
+                            SecurityStamp = "783e5beb-8a20-4be8-8a2a-57ef7c8c892b",
                             TwoFactorEnabled = false,
                             UserName = "test@test.com"
                         });
@@ -333,6 +366,26 @@ namespace backend.Migrations
                         .HasForeignKey("UserId");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("backend.Models.PostReaction", b =>
+                {
+                    b.HasOne("backend.Models.Post", "Post")
+                        .WithMany("Reactions")
+                        .HasForeignKey("PostId");
+
+                    b.HasOne("backend.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("Post");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("backend.Models.Post", b =>
+                {
+                    b.Navigation("Reactions");
                 });
 #pragma warning restore 612, 618
         }

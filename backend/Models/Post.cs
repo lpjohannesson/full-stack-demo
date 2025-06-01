@@ -9,4 +9,6 @@ public class Post
 
     public User? User { get; set; }
     public string? UserId { get; set; }
+
+    public ICollection<PostReaction> Reactions { get; set; } = [];
 }

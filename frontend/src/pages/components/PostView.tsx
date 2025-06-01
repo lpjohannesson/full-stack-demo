@@ -31,11 +31,11 @@ export function PostView({ post, deletePost }: PostViewProps) {
                     </Box>
                     <Box sx={{ display: "flex", alignItems: "center", gap: "16px" }}>
                         <Button variant="outlined" startIcon={<ThumbUpIcon />}>
-                            1
+                            {post?.likes}
                         </Button>
                         <Typography>0</Typography>
                         <Button variant="outlined" endIcon={<ThumbDownIcon />}>
-                            1
+                            {post?.dislikes}
                         </Button>
                     </Box>
                 </Box>

@@ -4,4 +4,6 @@ export class PostModel {
     title: string | undefined;
     content: string | undefined;
     user: { id: string, userName: string } | undefined;
+    likes: number | undefined;
+    dislikes: number | undefined;
 }

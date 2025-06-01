@@ -20,15 +20,23 @@ public class PostController(DemoDbContext context, UserManager<User> userManager
             date = post.Date?.ToString("MMMM dd, yyyy, hh:mm tt"),
             post.Title,
             post.Content,
-            user = post.User == null ? null : new { post.User.Id, post.User.UserName }
+            user = post.User == null ? null : new { post.User.Id, post.User.UserName },
+            likes = post.Reactions.Where(e => e.Liked).Count(),
+            dislikes = post.Reactions.Where(e => !e.Liked).Count()
         };
     }
+
+    private IQueryable<Post> GetPostQuery()
+    {
+        return _context.Posts
+            .Include(e => e.User)
+            .Include(e => e.Reactions);
+    } 
 
     [HttpGet]
     public async Task<ActionResult<IEnumerable<object>>> GetPosts()
     {
-        return await _context.Posts
-            .Include(e => e.User)
+        return await GetPostQuery()
             .OrderByDescending(e => e.Date)
             .Select(e => GetPostData(e))
             .ToListAsync();
@@ -38,8 +46,7 @@ public class PostController(DemoDbContext context, UserManager<User> userManager
     [HttpGet("/Post/{id}")]
     public async Task<ActionResult<object>> GetPost(long id)
     {
-        Post? post = await _context.Posts
-            .Include(e => e.User)
+        Post? post = await GetPostQuery()
             .Where(e => e.Id == id)
             .FirstOrDefaultAsync();
 

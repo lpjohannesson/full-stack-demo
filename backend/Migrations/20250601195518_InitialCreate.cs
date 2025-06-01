@@ -191,19 +191,50 @@ namespace backend.Migrations
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
 
+            migrationBuilder.CreateTable(
+                name: "PostReactions",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    UserId = table.Column<string>(type: "varchar(255)", nullable: true),
+                    PostId = table.Column<long>(type: "bigint", nullable: true),
+                    Liked = table.Column<bool>(type: "tinyint(1)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PostReactions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PostReactions_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_PostReactions_Posts_PostId",
+                        column: x => x.PostId,
+                        principalTable: "Posts",
+                        principalColumn: "Id");
+                })
+                .Annotation("MySQL:Charset", "utf8mb4");
+
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "972d9df7-a2fa-401b-bcfa-60886c5b67cb", 0, "95103687-7405-4d96-b7f6-a9e142b64694", "test@test.com", false, false, null, "TEST@TEST.COM", "TEST@TEST.COM", "AQAAAAIAAYagAAAAEH8oF3iZ0Bqw2XXMrc6W5GNx9ZvnrzWHKaDSNxX4/BqD4O2P2kiHdFVSGpi1D7Balg==", null, false, "2a752a2b-7474-42ca-be82-7862e58f1073", false, "test@test.com" });
+                values: new object[] { "901c7473-12c2-4779-b938-48bf516f9e31", 0, "44060e4b-03af-4515-9d90-bbb20280c054", "test@test.com", false, false, null, "TEST@TEST.COM", "TEST@TEST.COM", "AQAAAAIAAYagAAAAEH/pWKtYZJknCxbtPp3+9NUECjcxnbFX8NBUD6kWU6vlqyxMXKR6dSPPaHvNaXkDvg==", null, false, "783e5beb-8a20-4be8-8a2a-57ef7c8c892b", false, "test@test.com" });
 
             migrationBuilder.InsertData(
                 table: "Posts",
                 columns: new[] { "Id", "Content", "Date", "Title", "UserId" },
                 values: new object[,]
                 {
-                    { 1L, "Content1", new DateTime(2025, 5, 31, 22, 12, 34, 50, DateTimeKind.Local).AddTicks(7906), "Post1", "972d9df7-a2fa-401b-bcfa-60886c5b67cb" },
-                    { 2L, "Content2", new DateTime(2025, 5, 31, 22, 12, 34, 53, DateTimeKind.Local).AddTicks(2032), "Post2", "972d9df7-a2fa-401b-bcfa-60886c5b67cb" }
+                    { 1L, "Content1", new DateTime(2025, 6, 1, 15, 55, 17, 517, DateTimeKind.Local).AddTicks(123), "Post1", "901c7473-12c2-4779-b938-48bf516f9e31" },
+                    { 2L, "Content2", new DateTime(2025, 6, 1, 15, 55, 17, 519, DateTimeKind.Local).AddTicks(3196), "Post2", "901c7473-12c2-4779-b938-48bf516f9e31" }
                 });
+
+            migrationBuilder.InsertData(
+                table: "PostReactions",
+                columns: new[] { "Id", "Liked", "PostId", "UserId" },
+                values: new object[] { 1L, true, 1L, "901c7473-12c2-4779-b938-48bf516f9e31" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -243,6 +274,16 @@ namespace backend.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_PostReactions_PostId",
+                table: "PostReactions",
+                column: "PostId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PostReactions_UserId",
+                table: "PostReactions",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Posts_UserId",
                 table: "Posts",
                 column: "UserId");
@@ -267,10 +308,13 @@ namespace backend.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Posts");
+                name: "PostReactions");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Posts");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
