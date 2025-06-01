@@ -161,6 +161,11 @@ public class PostController(DemoDbContext context, UserManager<User> userManager
             return Unauthorized();
         }
 
+        if (!_context.Posts.Any(e => e.Id == request.PostId))
+        {
+            return NotFound();
+        }
+
         PostReaction? postReaction = await _context.PostReactions
             .Where(e => e.UserId == user.Id && e.PostId == request.PostId)
             .FirstOrDefaultAsync();
