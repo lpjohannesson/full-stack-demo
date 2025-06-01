@@ -11,3 +11,5 @@ This is a project made to demonstrate my web development abilities.
 ## Running the app
 - "docker-compose up -d" for deployment
 - "docker-compose watch" for debugging
+
+The website will be available on "localhost"
