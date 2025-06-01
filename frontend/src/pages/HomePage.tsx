@@ -18,7 +18,7 @@ export function HomePage() {
     return (
         <PageContainer isLoading={posts == null}>
             <Box sx={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-                <Button component={Link} to="/edit-post" variant="contained">Create a post</Button>
+                <Button component={Link} to="/edit-post" variant="contained">Cergweg a post</Button>
                 { posts?.map((post) => {
                     return (<PostView key={post.id} post={post} />);
                 }) }

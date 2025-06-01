@@ -29,3 +29,10 @@ services:
       - "80:80"
     depends_on:
       - backend
+    develop:
+      watch:
+        - action: sync+restart
+          path: frontend
+          target: app
+          ignore:
+            - node_modules
