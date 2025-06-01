@@ -1,10 +1,11 @@
 # Full-Stack Demo
 
-This is a project made to demonstrate my web development abilities.
+This is a forum project I made to demonstrate my web development abilities.
 
 ## Tech stack
 - React (frontend)
-- ASP.NET (backend)
+- Material UI (styling)
+- ASP.NET Core (backend)
 - MySQL (database)
 - Docker/Docker Compose (containerization)
 
