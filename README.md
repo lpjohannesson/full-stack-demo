@@ -1,6 +1,6 @@
 # Full-Stack Demo
 
-This is a project made to demonstrates my web development abilities.
+This is a project made to demonstrate my web development abilities.
 
 ## Tech stack
 - React (frontend)
