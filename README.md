@@ -1,6 +1,6 @@
 # Full-Stack Demo
 
-This is a forum project I made to demonstrate my web development abilities.
+This is a forum project I created to demonstrate my web development abilities.
 
 ## Tech stack
 - React (frontend)
