@@ -7,13 +7,12 @@ namespace backend.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class UserController(DemoDbContext context, UserManager<User> userManager) : Controller
+public class UserController(UserManager<User> userManager) : Controller
 {
-    private readonly DemoDbContext _context = context;
     private readonly UserManager<User> _userManager = userManager;
 
     [HttpGet]
-    public async Task<ActionResult<object>> GetUser()
+    public async Task<ActionResult<UserResponse>> GetUser()
     {
         User? user = await _userManager.GetUserAsync(User);
 
@@ -22,6 +21,6 @@ public class UserController(DemoDbContext context, UserManager<User> userManager
             return Unauthorized();
         }
 
-        return new { id = user.Id, userName = user.UserName };
+        return new UserResponse { Id = user.Id, UserName = user.UserName };
     }
 }
