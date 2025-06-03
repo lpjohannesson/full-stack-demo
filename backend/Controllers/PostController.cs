@@ -1,4 +1,3 @@
-using System.Text.RegularExpressions;
 using backend.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -13,20 +12,24 @@ public class PostController(DemoDbContext context, UserManager<User> userManager
     private readonly DemoDbContext _context = context;
     private readonly UserManager<User> _userManager = userManager;
 
-    private static object GetPostData(Post post, User? user)
+    private static PostResponse GetPostData(Post post, User? user)
     {
         PostReaction? reaction = post.Reactions.FirstOrDefault(e => e.UserId == user?.Id);
 
-        return new
+        return new PostResponse
         {
-            post.Id,
-            date = post.Date?.ToString("MMMM dd, yyyy, hh:mm tt"),
-            post.Title,
-            post.Content,
-            user = post.User == null ? null : new { post.User.Id, post.User.UserName },
-            likes = post.Reactions.Where(e => e.Liked && e.UserId != user?.Id).Count(),
-            dislikes = post.Reactions.Where(e => !e.Liked && e.UserId != user?.Id).Count(),
-            userReaction = reaction == null ? 0 : (reaction.Liked ? 1 : -1)
+            Id = post.Id,
+            Date = post.Date?.ToString("MMMM dd, yyyy, hh:mm tt"),
+            Title = post.Title,
+            Content = post.Content,
+            User = post.User == null ? null : new UserResponse
+            {
+                Id = post.User.Id,
+                UserName = post.User.UserName
+            },
+            Likes = post.Reactions.Where(e => e.Liked && e.UserId != user?.Id).Count(),
+            Dislikes = post.Reactions.Where(e => !e.Liked && e.UserId != user?.Id).Count(),
+            UserReaction = reaction == null ? 0 : (reaction.Liked ? 1 : -1)
         };
     }
 
@@ -38,7 +41,7 @@ public class PostController(DemoDbContext context, UserManager<User> userManager
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<object>>> GetPosts()
+    public async Task<ActionResult<IEnumerable<PostResponse>>> GetPosts()
     {
         User? user = await _userManager.GetUserAsync(User);
 
@@ -50,7 +53,7 @@ public class PostController(DemoDbContext context, UserManager<User> userManager
 
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<object>> GetPost(long id)
+    public async Task<ActionResult<PostResponse>> GetPost(long id)
     {
         User? user = await _userManager.GetUserAsync(User);
 
